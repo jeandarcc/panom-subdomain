@@ -1,0 +1,52 @@
+{
+  "name": "@panomapp/subdomain-policy",
+  "version": "0.1.0",
+  "description": "Subdomain policy utilities for host-aware routing, canonical navigation, and redirect safety.",
+  "license": "MIT",
+  "main": "index.cjs",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "subdomain",
+    "routing",
+    "canonical-url",
+    "redirect",
+    "vue",
+    "browser"
+  ],
+  "scripts": {
+    "selftest": "node ./testing.mjs",
+    "pack:check": "npm pack --dry-run"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.cjs",
+      "default": "./index.mjs"
+    },
+    "./runtime": {
+      "types": "./runtime.d.ts",
+      "import": "./runtime.mjs",
+      "require": "./runtime.cjs",
+      "default": "./runtime.mjs"
+    }
+  },
+  "files": [
+    "index.cjs",
+    "index.mjs",
+    "index.d.ts",
+    "runtime.cjs",
+    "runtime.mjs",
+    "runtime.d.ts",
+    "README.md",
+    "LICENSE"
+  ]
+}
