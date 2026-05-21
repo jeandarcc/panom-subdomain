@@ -91,4 +91,33 @@ const registry = createSubdomainPolicyRegistry();
 registerSubdomainPolicies(registry, runtime.registry.all());
 assert.equal(registry.bySubdomain('alpha')?.subdomain, 'alpha');
 
+const devRuntime = createSubdomainPolicyRuntime({
+  rootHostname: 'panom.app',
+  policies: [
+    {
+      subdomain: 'cloud',
+      rootRenderRoute: 'cloud.root',
+      canonicalPathPrefix: '/cloud',
+      requiresAuth: true,
+      reachableDirectly: false,
+      routeNames: ['cloud.root'],
+      landingStrategy: 'root-only',
+      socketOriginStrategy: 'same-origin',
+    },
+  ],
+  isDev: true,
+  getCurrentOrigin: () => 'https://dev.panom.app:3000',
+  getCurrentHostname: () => 'dev.panom.app',
+  getCurrentSearch: () => '',
+  getBaseServerOrigin: () => 'https://dev.panom.app:3000',
+  getSessionStorage: () => sessionStorage,
+  getLocalStorage: () => localStorage,
+});
+
+assert.equal(devRuntime.buildAbsolutePolicyUrlForRoute('cloud.root'), 'https://dev.panom.app:3000/cloud');
+assert.equal(
+  devRuntime.buildAbsolutePolicyUrlForRoute('cloud.root', '/cloud/extra'),
+  'https://dev.panom.app:3000/cloud/extra'
+);
+
 console.log('subdomain-policy selftest passed');

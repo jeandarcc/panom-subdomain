@@ -271,7 +271,11 @@ function createSubdomainPolicyRuntime(options) {
     if (!policy) throw new Error(`No subdomain policy found for route: ${String(routeName)}`);
 
     if (isDev) {
-      return new URL(path, `${currentOriginGetter()}/`).toString();
+      const resolvedPath =
+        path === '/' && routeName === policy.rootRenderRoute
+          ? policy.canonicalPathPrefix
+          : path;
+      return new URL(resolvedPath, `${currentOriginGetter()}/`).toString();
     }
 
     return new URL(path, `${getPolicyLandingUrl(policy.subdomain)}/`).toString();
